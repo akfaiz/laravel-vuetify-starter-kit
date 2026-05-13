@@ -8,16 +8,20 @@ use Inertia\Middleware;
 class HandleInertiaRequests extends Middleware
 {
     /**
-     * The root template that is loaded on the first page visit.
+     * The root template that's loaded on the first page visit.
+     *
+     * @see https://inertiajs.com/server-side-setup#root-template
      *
      * @var string
      */
     protected $rootView = 'app';
 
     /**
-     * Determine the current asset version.
+     * Determines the current asset version.
+     *
+     * @see https://inertiajs.com/asset-versioning
      */
-    public function version(Request $request): string|null
+    public function version(Request $request): ?string
     {
         return parent::version($request);
     }
@@ -25,33 +29,19 @@ class HandleInertiaRequests extends Middleware
     /**
      * Define the props that are shared by default.
      *
+     * @see https://inertiajs.com/shared-data
+     *
      * @return array<string, mixed>
      */
     public function share(Request $request): array
     {
-        $flash = [
-            'type' => null,
-            'message' => null,
-        ];
-        if ($request->session()->has('success')) {
-            $flash['type'] = 'success';
-            $flash['message'] = $request->session()->get('success');
-        } elseif ($request->session()->has('error')) {
-            $flash['type'] = 'error';
-            $flash['message'] = $request->session()->get('error');
-        } elseif ($request->session()->has('warning')) {
-            $flash['type'] = 'warning';
-            $flash['message'] = $request->session()->get('warning');
-        } elseif ($request->session()->has('info')) {
-            $flash['type'] = 'info';
-            $flash['message'] = $request->session()->get('info');
-        }
-
-        return array_merge(parent::share($request), [
+        return [
+            ...parent::share($request),
+            'name' => config('app.name'),
             'auth' => [
                 'user' => $request->user(),
             ],
-            'flash' => $flash,
-        ]);
+            'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
+        ];
     }
 }

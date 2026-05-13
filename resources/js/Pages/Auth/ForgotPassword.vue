@@ -1,45 +1,58 @@
-<script setup>
-import GuestLayout from '@/Layouts/GuestLayout.vue'
-import { Head, useForm } from '@inertiajs/vue3'
+<script setup lang="ts">
+import { Form, Head } from '@inertiajs/vue3';
+import TextLink from '@/components/TextLink.vue';
+import { login } from '@/routes';
+import { email } from '@/routes/password';
 
-defineProps({
-  status: {
-    type: String,
-  },
-})
+defineOptions({
+    layout: {
+        title: 'Forgot password',
+        description: 'Enter your email to receive a password reset link',
+    },
+});
 
-const form = useForm({
-  email: '',
-})
-
-const submit = () => {
-  form.post('/forgot-password')
-}
+defineProps<{
+    status?: string;
+}>();
 </script>
 
 <template>
-  <GuestLayout>
-    <Head title="Forgot Password" />
-    <v-form @submit.prevent="submit">
-      <div class="text-subtitle-2 text-medium-emphasis mb-4">
-        Forgot your password? No problem. Just let us know your email address and we will email you a password reset
-        link that will allow you to choose a new one.
-      </div>
-      <div v-if="status" class="text-subtitle-2 mb-4">
+    <Head title="Forgot password" />
+
+    <VAlert v-if="status" type="success" variant="tonal" class="mb-4">
         {{ status }}
-      </div>
-      <v-text-field
-        v-model="form.email"
-        type="email"
-        variant="outlined"
-        density="compact"
-        placeholder="Email address"
-        prepend-inner-icon="mdi-email-outline"
-        :error-messages="form.errors.email"
-      />
-      <v-btn :loading="form.processing" class="mt-4" type="submit" block color="primary">
-        Email Password Reset Link
-      </v-btn>
-    </v-form>
-  </GuestLayout>
+    </VAlert>
+
+    <Form v-bind="email.form()" v-slot="{ errors, processing }">
+        <div class="starter-field mb-6">
+            <label for="email">Email address</label>
+            <VTextField
+                id="email"
+                type="email"
+                name="email"
+                density="compact"
+                variant="outlined"
+                hide-details="auto"
+                autocomplete="off"
+                autofocus
+                :error-messages="errors.email"
+            />
+        </div>
+
+        <VBtn
+            type="submit"
+            color="primary"
+            block
+            size="large"
+            :loading="processing"
+            :disabled="processing"
+            data-test="email-password-reset-link-button"
+        >
+            Email password reset link
+        </VBtn>
+    </Form>
+
+    <div class="text-center text-body-2 mt-6">
+        Or, return to <TextLink :href="login()">log in</TextLink>
+    </div>
 </template>

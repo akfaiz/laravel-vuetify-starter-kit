@@ -1,63 +1,120 @@
-<script setup>
-import ApplicationLogo from '@/Components/ApplicationLogo.vue'
-import VuetifyLogo from '@/Components/VuetifyLogo.vue'
-import { Head, Link } from '@inertiajs/vue3'
+<script setup lang="ts">
+import { Head, Link } from '@inertiajs/vue3';
+import AppLogo from '@/components/AppLogo.vue';
+import { dashboard, login, register } from '@/routes';
 
-const props = defineProps({
-  canLogin: Boolean,
-  canRegister: Boolean,
-  auth: Object,
-})
+withDefaults(
+    defineProps<{
+        canRegister: boolean;
+    }>(),
+    {
+        canRegister: true,
+    },
+);
 </script>
 
 <template>
-  <Head title="Welcome" />
-  <v-app class="bg-grey-lighten-4">
-    <v-main>
-      <v-container>
-        <v-row align="center" justify="center" style="height: 100vh">
-          <v-col cols="12" sm="12" md="10" lg="4">
-            <v-card class="pa-3 rounded-lg elevation-8">
-              <v-card-title>
-                <div class="d-flex justify-center mb-4">
-                  <ApplicationLogo class="mr-1" style="height: 75" />
-                  <VuetifyLogo class="ml-1" style="height: 75" />
-                </div>
-                <span class="text-h5">Welcome to Laravel + Vuetify</span>
-              </v-card-title>
-              <v-card-text>
-                <p class="text-body-2">
-                  Laravel has wonderful documentation covering every aspect of the framework. Whether you are a newcomer
-                  or have prior experience with Laravel, we recommend reading our documentation from beginning to end.
-                </p>
-              </v-card-text>
-              <v-card-actions>
-                <div v-if="props.auth.user != null">
-                  <Link href="/dashboard" as="div">
-                    <v-btn color="primary">Dashboard</v-btn>
-                  </Link>
-                </div>
-                <div v-else>
-                  <div class="d-flex">
-                    <Link v-if="props.canLogin" href="/login" class="mr-2" as="div">
-                      <v-btn color="primary">Login</v-btn>
+    <Head title="Welcome" />
+
+    <VApp>
+        <VMain>
+            <VContainer class="py-6">
+                <div class="d-flex justify-space-between align-center mb-10">
+                    <Link :href="dashboard()" class="d-flex align-center">
+                        <AppLogo />
                     </Link>
-                    <Link v-if="props.canRegister" href="/register" as="div">
-                      <v-btn color="secondary">Sign Up</v-btn>
-                    </Link>
-                  </div>
+
+                    <div class="d-flex ga-2">
+                        <Link v-if="$page.props.auth.user" :href="dashboard()">
+                            <VBtn color="primary">Dashboard</VBtn>
+                        </Link>
+                        <template v-else>
+                            <Link :href="login()">
+                                <VBtn variant="text">Log in</VBtn>
+                            </Link>
+                            <Link v-if="canRegister" :href="register()">
+                                <VBtn color="primary">Register</VBtn>
+                            </Link>
+                        </template>
+                    </div>
                 </div>
-              </v-card-actions>
-            </v-card>
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-main>
-  </v-app>
+
+                <VRow align="center" class="min-screen">
+                    <VCol cols="12" md="6">
+                        <h1 class="text-h3 mb-4">Laravel Starter Kit</h1>
+                        <p class="text-body-1 text-medium-emphasis mb-6">
+                            A Laravel, Inertia, Vue, Fortify, Wayfinder, and
+                            Vuetify foundation for building authenticated
+                            applications.
+                        </p>
+
+                        <div class="d-flex flex-wrap ga-3">
+                            <Link
+                                v-if="$page.props.auth.user"
+                                :href="dashboard()"
+                            >
+                                <VBtn
+                                    color="primary"
+                                    size="large"
+                                    prepend-icon="mdi-view-dashboard-outline"
+                                >
+                                    Dashboard
+                                </VBtn>
+                            </Link>
+                            <template v-else>
+                                <Link :href="login()">
+                                    <VBtn
+                                        color="primary"
+                                        size="large"
+                                        prepend-icon="mdi-login"
+                                    >
+                                        Log in
+                                    </VBtn>
+                                </Link>
+                                <Link v-if="canRegister" :href="register()">
+                                    <VBtn
+                                        variant="tonal"
+                                        size="large"
+                                        prepend-icon="mdi-account-plus-outline"
+                                    >
+                                        Register
+                                    </VBtn>
+                                </Link>
+                            </template>
+                        </div>
+                    </VCol>
+
+                    <VCol cols="12" md="6">
+                        <VCard variant="flat" border>
+                            <VList lines="two">
+                                <VListItem
+                                    prepend-icon="mdi-vuetify"
+                                    title="Vuetify UI"
+                                    subtitle="Material components, themes, icons, and responsive layout primitives."
+                                />
+                                <VDivider />
+                                <VListItem
+                                    prepend-icon="mdi-laravel"
+                                    title="Laravel backend"
+                                    subtitle="Fortify authentication, settings, and two-factor flows."
+                                />
+                                <VDivider />
+                                <VListItem
+                                    prepend-icon="mdi-link-variant"
+                                    title="Wayfinder routes"
+                                    subtitle="Typed frontend links and forms connected to Laravel endpoints."
+                                />
+                            </VList>
+                        </VCard>
+                    </VCol>
+                </VRow>
+            </VContainer>
+        </VMain>
+    </VApp>
 </template>
 
-<script>
-export default {
-  name: 'WelcomePage',
+<style scoped>
+.min-screen {
+    min-height: calc(100vh - 180px);
 }
-</script>
+</style>

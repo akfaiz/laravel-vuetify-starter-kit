@@ -1,90 +1,99 @@
-<script setup>
-import GuestLayout from '@/Layouts/GuestLayout.vue'
-import { Head, Link, useForm } from '@inertiajs/vue3'
-import { ref } from 'vue'
+<script setup lang="ts">
+import { Form, Head } from '@inertiajs/vue3';
+import PasswordInput from '@/components/PasswordInput.vue';
+import TextLink from '@/components/TextLink.vue';
+import { login } from '@/routes';
+import { store } from '@/routes/register';
 
-defineProps({
-  canResetPassword: {
-    type: Boolean,
-  },
-  status: {
-    type: String,
-  },
-})
-
-const form = useForm({
-  name: '',
-  email: '',
-  password: '',
-  password_confirmation: '',
-})
-const showPassword = ref(false)
-
-const submit = () => {
-  form.post('/register', {
-    onFinish: () => form.reset('password', 'password_confirmation'),
-  })
-}
-</script>
-<script>
-export default {
-  name: 'RegisterPage',
-}
+defineOptions({
+    layout: {
+        title: 'Create an account',
+        description: 'Enter your details below to create your account',
+    },
+});
 </script>
 
 <template>
-  <GuestLayout>
-    <Head title="Log in" />
-    <v-form @submit.prevent="submit">
-      <div class="text-subtitle-1 text-medium-emphasis">Name</div>
-      <v-text-field
-        v-model="form.name"
-        type="text"
-        variant="outlined"
-        density="compact"
-        placeholder="Full name"
-        prepend-inner-icon="mdi-account"
-        :error-messages="form.errors.name"
-      />
-      <div class="text-subtitle-1 text-medium-emphasis">Email</div>
-      <v-text-field
-        v-model="form.email"
-        type="email"
-        variant="outlined"
-        density="compact"
-        placeholder="Email address"
-        prepend-inner-icon="mdi-email-outline"
-        :error-messages="form.errors.email"
-      />
-      <div class="text-subtitle-1 text-medium-emphasis">Password</div>
-      <v-text-field
-        v-model="form.password"
-        density="compact"
-        variant="outlined"
-        placeholder="Enter your password"
-        prepend-inner-icon="mdi-lock-outline"
-        :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
-        :type="showPassword ? 'text' : 'password'"
-        :error-messages="form.errors.password"
-        @click:append-inner="showPassword = !showPassword"
-      />
-      <div class="text-subtitle-1 text-medium-emphasis">Password Confirmation</div>
-      <v-text-field
-        v-model="form.password_confirmation"
-        density="compact"
-        variant="outlined"
-        placeholder="Enter your password"
-        prepend-inner-icon="mdi-lock-outline"
-        :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
-        :type="showPassword ? 'text' : 'password'"
-        :error-messages="form.errors.password_confirmation"
-        @click:append-inner="showPassword = !showPassword"
-      />
+    <Head title="Register" />
 
-      <v-btn :loading="form.processing" type="submit" block color="primary" class="mb-5 mt-3">Register</v-btn>
-    </v-form>
-    <v-card-text class="text-center">
-      <Link class="text-blue text-decoration-none" href="/login"> Already registered? </Link>
-    </v-card-text>
-  </GuestLayout>
+    <Form
+        v-bind="store.form()"
+        :reset-on-success="['password', 'password_confirmation']"
+        v-slot="{ errors, processing }"
+    >
+        <div class="starter-field mb-4">
+            <label for="name">Name</label>
+            <VTextField
+                id="name"
+                name="name"
+                density="compact"
+                variant="outlined"
+                hide-details="auto"
+                required
+                autofocus
+                autocomplete="name"
+                :error-messages="errors.name"
+            />
+        </div>
+
+        <div class="starter-field mb-4">
+            <label for="email">Email address</label>
+            <VTextField
+                id="email"
+                type="email"
+                name="email"
+                density="compact"
+                variant="outlined"
+                hide-details="auto"
+                required
+                autocomplete="email"
+                :error-messages="errors.email"
+            />
+        </div>
+
+        <div class="starter-field mb-4">
+            <label for="password">Password</label>
+            <PasswordInput
+                id="password"
+                name="password"
+                density="compact"
+                variant="outlined"
+                hide-details="auto"
+                required
+                autocomplete="new-password"
+                :error-messages="errors.password"
+            />
+        </div>
+
+        <div class="starter-field mb-6">
+            <label for="password_confirmation">Confirm password</label>
+            <PasswordInput
+                id="password_confirmation"
+                name="password_confirmation"
+                density="compact"
+                variant="outlined"
+                hide-details="auto"
+                required
+                autocomplete="new-password"
+                :error-messages="errors.password_confirmation"
+            />
+        </div>
+
+        <VBtn
+            type="submit"
+            color="primary"
+            block
+            size="large"
+            :loading="processing"
+            :disabled="processing"
+            data-test="register-user-button"
+        >
+            Create account
+        </VBtn>
+
+        <div class="text-center text-body-2 mt-6">
+            Already have an account?
+            <TextLink :href="login()" :tabindex="6">Log in</TextLink>
+        </div>
+    </Form>
 </template>

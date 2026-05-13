@@ -1,71 +1,71 @@
-# Laravel InertiaJS Vuetify
+# Laravel Vuetify Starter Kit
 
-A laravel inertiajs vuetify starterkit
+A Laravel 13 starter kit with Inertia v3, Vue 3, Vuetify 3, Fortify, and Wayfinder.
 
-## Features
+## What’s included
 
-- Laravel 10
-- Inertia.js
-- Vue 3
-- Vite
-- Vuetify + Material Design Icons
-- ESLint + Prettier
-- Authentication (Login, Register, Forgot Password)
-- Example CRUD with serverside pagination, searching, and sorting
-- SPA (Single Page Application)
+- Inertia-powered app shell with Vue 3 and Vuetify 3
+- Authentication flows for login, registration, password reset, email verification, password confirmation, and two-factor authentication
+- Account settings for profile, security, and appearance
+- Typed frontend route helpers generated with Wayfinder
+- Light/dark theme initialization and flash toast support
 
-## Installation
+## Requirements
 
-Clone repo locally
+- PHP 8.3 or later
+- Composer
+- Node.js and npm
 
-```bash
-git clone https://github.com/ahmadfaizk/laravel-inertiajs-vuetify-starterkit
-cd laravel-inertiajs-vuetify-starterkit
-```
-
-Install PHP dependencies
+## Getting started
 
 ```bash
 composer install
-```
-
-Install NPM dependencies
-
-```bash
+cp .env.example .env
+php artisan key:generate
+php artisan migrate
 npm install
 ```
 
-Build assets
+You can also run the bundled setup script:
 
 ```bash
-npm run dev
+composer run setup
 ```
 
-Setup configuration
+## Development
 
 ```bash
-cp .env.example .env
+composer run dev
 ```
 
-Generate application key
+This starts the Laravel server, queue listener, log viewer, and Vite dev server.
 
-```bash
-php artisan key:generate
-```
+## Useful commands
 
-Run database migrations
+| Command | Description |
+| --- | --- |
+| `composer run test` | Run the app test suite |
+| `composer run lint` | Fix PHP code style with Pint |
+| `composer run lint:check` | Check PHP code style without changing files |
+| `composer run ci:check` | Run the full local CI check |
+| `npm run dev` | Start the Vite dev server |
+| `npm run build` | Build the frontend for production |
+| `npm run lint` | Lint and fix frontend files |
+| `npm run lint:check` | Check frontend linting |
+| `npm run format` | Format frontend files |
+| `npm run types:check` | Run TypeScript type checks |
 
-```bash
-php artisan migrate
-```
+## Project structure
 
-Run application
-```bash
-php artisan serve
-```
+- `app/` - Laravel application code
+- `routes/` - Web and settings routes
+- `resources/js/pages/` - Inertia pages
+- `resources/js/layouts/` - App and auth layouts
+- `resources/js/components/` - Shared Vue components
+- `resources/js/routes/` - Wayfinder route helpers
 
-## Contributing
+## Notes
 
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
-Please make sure to update tests as appropriate.
+- The welcome page and dashboard are powered by Inertia.
+- Settings pages are grouped under `/settings`.
+- Use the generated route helpers in `resources/js/routes/` instead of hardcoded URLs.
