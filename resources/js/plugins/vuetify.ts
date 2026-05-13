@@ -20,6 +20,7 @@ const initialTheme = (): 'light' | 'dark' => {
 };
 
 export default createVuetify({
+    ssr: true,
     defaults: {
         VBtn: {
             rounded: 'sm',
@@ -28,12 +29,14 @@ export default createVuetify({
             rounded: 'lg',
         },
         VTextField: {
-            density: 'comfortable',
+            density: 'compact',
             variant: 'outlined',
+            hideDetails: 'auto',
         },
         VTextarea: {
-            density: 'comfortable',
+            density: 'compact',
             variant: 'outlined',
+            hideDetails: 'auto',
         },
     },
     theme: {

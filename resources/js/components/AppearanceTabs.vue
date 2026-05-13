@@ -17,6 +17,7 @@ const tabs = [
         color="primary"
         variant="outlined"
         divided
+        density="compact"
         @update:model-value="updateAppearance"
     >
         <VBtn
@@ -24,6 +25,8 @@ const tabs = [
             :key="value"
             :prepend-icon="icon"
             :value="value"
+            density="compact"
+            size="small"
         >
             {{ label }}
         </VBtn>

@@ -7,6 +7,9 @@ import { defineConfig } from 'vite';
 import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify';
 
 export default defineConfig({
+    ssr: {
+        noExternal: ['vuetify'],
+    },
     plugins: [
         laravel({
             input: ['resources/css/app.css', 'resources/js/app.ts'],

@@ -35,6 +35,14 @@ const pageTitle = computed(
         'Laravel Starter Kit',
 );
 
+const sidebarToggleIcon = computed(() => {
+    if (isMobile.value) {
+        return drawer.value ? 'mdi-close' : 'mdi-menu';
+    }
+
+    return rail.value ? 'mdi-dock-right' : 'mdi-dock-left';
+});
+
 const mainNavItems: NavItem[] = [
     {
         title: 'Dashboard',
@@ -231,7 +239,7 @@ watch(
                 <header class="app-frame-header">
                     <VBtn
                         aria-label="Toggle sidebar"
-                        icon="mdi-dock-left"
+                        :icon="sidebarToggleIcon"
                         size="small"
                         variant="text"
                         @click="toggleSidebar"
