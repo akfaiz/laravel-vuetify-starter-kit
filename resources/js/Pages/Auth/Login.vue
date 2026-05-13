@@ -1,80 +1,96 @@
-<script setup>
-import GuestLayout from '@/Layouts/GuestLayout.vue'
-import { Head, Link, useForm } from '@inertiajs/vue3'
-import { ref } from 'vue'
+<script setup lang="ts">
+import { Form, Head } from '@inertiajs/vue3';
+import PasswordInput from '@/components/PasswordInput.vue';
+import TextLink from '@/components/TextLink.vue';
+import { register } from '@/routes';
+import { store } from '@/routes/login';
+import { request } from '@/routes/password';
 
-defineProps({
-  canResetPassword: {
-    type: Boolean,
-  },
-  status: {
-    type: String,
-  },
-})
+defineOptions({
+    layout: {
+        title: 'Log in to your account',
+        description: 'Enter your email and password below to log in',
+    },
+});
 
-const form = useForm({
-  email: 'johndoe@mail.com',
-  password: 'password',
-  remember: false,
-})
-const showPassword = ref(false)
-
-const submit = () => {
-  form.post('/login', {
-    onFinish: () => form.reset('password'),
-  })
-}
-</script>
-<script>
-export default {
-  name: 'LoginPage',
-}
+defineProps<{
+    status?: string;
+    canResetPassword: boolean;
+    canRegister: boolean;
+}>();
 </script>
 
 <template>
-  <GuestLayout>
     <Head title="Log in" />
-    <v-form @submit.prevent="submit">
-      <div class="text-subtitle-1 text-medium-emphasis">Email</div>
-      <v-text-field
-        v-model="form.email"
-        type="email"
-        variant="outlined"
-        density="compact"
-        placeholder="Email address"
-        prepend-inner-icon="mdi-email-outline"
-        :error-messages="form.errors.email"
-      />
-      <div class="d-flex align-center justify-space-between">
-        <div class="text-subtitle-1 text-medium-emphasis">Password</div>
-        <Link
-          class="text-caption text-decoration-none text-blue"
-          href="/forgot-password"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          Forgot password?</Link
-        >
-      </div>
-      <v-text-field
-        v-model="form.password"
-        density="compact"
-        variant="outlined"
-        placeholder="Enter your password"
-        prepend-inner-icon="mdi-lock-outline"
-        :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
-        :type="showPassword ? 'text' : 'password'"
-        :error-messages="form.errors.password"
-        @click:append-inner="showPassword = !showPassword"
-      />
-      <v-checkbox v-model="form.remember" label="Remember me" />
 
-      <v-btn :loading="form.processing" type="submit" block color="primary" class="mb-12">Login</v-btn>
-    </v-form>
-    <v-card-text class="text-center">
-      <Link class="text-blue text-decoration-none" href="/register">
-        Sign up now <v-icon icon="mdi-chevron-right" />
-      </Link>
-    </v-card-text>
-  </GuestLayout>
+    <VAlert v-if="status" type="success" variant="tonal" class="mb-4">
+        {{ status }}
+    </VAlert>
+
+    <Form
+        v-bind="store.form()"
+        :reset-on-success="['password']"
+        v-slot="{ errors, processing }"
+    >
+        <div class="starter-field mb-4">
+            <label for="email">Email address</label>
+            <VTextField
+                id="email"
+                type="email"
+                name="email"
+                density="compact"
+                variant="outlined"
+                hide-details="auto"
+                required
+                autofocus
+                autocomplete="email"
+                :error-messages="errors.email"
+            />
+        </div>
+
+        <div class="d-flex align-center justify-space-between">
+            <label for="password" class="auth-field-label">Password</label>
+            <TextLink v-if="canResetPassword" :href="request()" :tabindex="5">
+                Forgot password?
+            </TextLink>
+        </div>
+
+        <div class="starter-field mb-2">
+            <PasswordInput
+                id="password"
+                name="password"
+                density="compact"
+                variant="outlined"
+                hide-details="auto"
+                required
+                autocomplete="current-password"
+                :error-messages="errors.password"
+            />
+        </div>
+
+        <VCheckbox
+            name="remember"
+            label="Remember me"
+            value="on"
+            density="compact"
+            hide-details
+        />
+
+        <VBtn
+            type="submit"
+            class="mt-4" color="primary"
+            block
+            size="large"
+            :loading="processing"
+            :disabled="processing"
+            data-test="login-button"
+        >
+            Log in
+        </VBtn>
+
+        <div v-if="canRegister" class="text-center text-body-2 mt-6">
+            Don't have an account?
+            <TextLink :href="register()" :tabindex="5">Sign up</TextLink>
+        </div>
+    </Form>
 </template>

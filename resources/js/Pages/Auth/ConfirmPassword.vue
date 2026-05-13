@@ -1,44 +1,50 @@
-<script setup>
-import GuestLayout from '@/Layouts/GuestLayout.vue'
-import { Head, useForm } from '@inertiajs/vue3'
-import { ref } from 'vue'
+<script setup lang="ts">
+import { Form, Head } from '@inertiajs/vue3';
+import PasswordInput from '@/components/PasswordInput.vue';
+import { store } from '@/routes/password/confirm';
 
-defineProps({
-  status: {
-    type: String,
-  },
-})
-
-const form = useForm({
-  password: '',
-})
-const showPassword = ref(false)
-
-const submit = () => {
-  form.post('/confirm-password', {
-    onFinish: () => form.reset(),
-  })
-}
+defineOptions({
+    layout: {
+        title: 'Confirm your password',
+        description:
+            'This is a secure area of the application. Please confirm your password before continuing.',
+    },
+});
 </script>
 
 <template>
-  <GuestLayout>
-    <Head title="Confirm Password" />
-    <v-form @submit.prevent="submit">
-      <div class="text-subtitle-2 text-medium-emphasis mb-4">
-        This is a secure area of the application. Please confirm your password before continuing.
-      </div>
-      <v-text-field
-        v-model="form.password"
-        variant="outlined"
-        density="compact"
-        placeholder="Password"
-        :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
-        :type="showPassword ? 'text' : 'password'"
-        :error-messages="form.errors.password"
-        @click:append-inner="showPassword = !showPassword"
-      />
-      <v-btn :loading="form.processing" class="mt-4" type="submit" block color="primary"> Confirm </v-btn>
-    </v-form>
-  </GuestLayout>
+    <Head title="Confirm password" />
+
+    <Form
+        v-bind="store.form()"
+        reset-on-success
+        v-slot="{ errors, processing }"
+    >
+        <div class="starter-field mb-6">
+            <label for="password">Password</label>
+            <PasswordInput
+                id="password"
+                name="password"
+                density="compact"
+                variant="outlined"
+                hide-details="auto"
+                required
+                autocomplete="current-password"
+                autofocus
+                :error-messages="errors.password"
+            />
+        </div>
+
+        <VBtn
+            type="submit"
+            color="primary"
+            block
+            size="large"
+            :loading="processing"
+            :disabled="processing"
+            data-test="confirm-password-button"
+        >
+            Confirm password
+        </VBtn>
+    </Form>
 </template>

@@ -1,0 +1,7 @@
+[mcp_servers.laravel-boost]
+command = "php"
+args = ["artisan", "boost:mcp"]
+cwd = "your/laravel/project/path"
+
+[mcp_servers.vuetify-mcp]
+url = "https://mcp.vuetifyjs.com/mcp"

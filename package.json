@@ -1,32 +1,47 @@
 {
+    "$schema": "https://www.schemastore.org/package.json",
     "private": true,
     "type": "module",
     "scripts": {
-        "dev": "vite",
         "build": "vite build",
-        "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src",
-        "format": "prettier .  --write"
+        "build:ssr": "vite build && vite build --ssr",
+        "dev": "vite",
+        "format": "prettier --write resources/",
+        "format:check": "prettier --check resources/",
+        "lint": "eslint . --fix",
+        "lint:check": "eslint .",
+        "types:check": "vue-tsc --noEmit"
     },
     "devDependencies": {
-        "@inertiajs/vue3": "^1.0.0",
-        "@mdi/font": "^7.2.96",
-        "@vitejs/plugin-vue": "^4.0.0",
-        "axios": "^1.1.2",
-        "esbuild": "^0.18.11",
-        "eslint": "^8.44.0",
-        "eslint-config-prettier": "^8.8.0",
-        "eslint-plugin-prettier": "^5.0.0",
-        "eslint-plugin-vue": "^9.15.1",
-        "laravel-vite-plugin": "^0.7.5",
-        "prettier": "3.0.0",
-        "vite": "^4.0.0",
-        "vite-plugin-eslint": "^1.8.1",
-        "vite-plugin-vuetify": "^1.0.2",
-        "vue": "^3.2.41",
-        "vuetify": "^3.3.6"
+        "@eslint/js": "^9.19.0",
+        "@laravel/vite-plugin-wayfinder": "^0.1.3",
+        "@stylistic/eslint-plugin": "^5.10.0",
+        "@types/node": "^22.13.5",
+        "@vitejs/plugin-vue": "^6.0.0",
+        "@vue/eslint-config-typescript": "^14.3.0",
+        "concurrently": "^9.0.1",
+        "eslint": "^9.17.0",
+        "eslint-config-prettier": "^10.0.1",
+        "eslint-import-resolver-typescript": "^4.4.4",
+        "eslint-plugin-import": "^2.32.0",
+        "eslint-plugin-vue": "^9.32.0",
+        "prettier": "^3.4.2",
+        "typescript": "^5.2.2",
+        "typescript-eslint": "^8.23.0",
+        "vite": "^8.0.0",
+        "vite-plugin-vuetify": "^2.1.2",
+        "vue-tsc": "^2.2.4"
     },
     "dependencies": {
-        "crypto-js": "^4.1.1",
-        "vue-toastification": "^2.0.0-rc.5"
+        "@mdi/font": "^7.4.47",
+        "@inertiajs/vite": "^3.0.0",
+        "@inertiajs/vue3": "^3.0.0",
+        "laravel-vite-plugin": "^3.1",
+        "vue": "^3.5.13",
+        "vuetify": "^3.10.0"
+    },
+    "optionalDependencies": {
+        "@rollup/rollup-linux-x64-gnu": "4.9.5",
+        "@rollup/rollup-win32-x64-msvc": "4.9.5"
     }
 }
