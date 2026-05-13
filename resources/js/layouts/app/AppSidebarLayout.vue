@@ -46,7 +46,7 @@ const mainNavItems: NavItem[] = [
 const footerNavItems: NavItem[] = [
     {
         title: 'Repository',
-        href: 'https://github.com/laravel/vue-starter-kit',
+        href: 'https://github.com/akfaiz/laravel-vuetify-starter-kit',
         icon: 'mdi-source-repository',
     },
     {

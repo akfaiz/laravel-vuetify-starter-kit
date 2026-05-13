@@ -1,0 +1,35 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: laravel-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: laravel
+      POSTGRES_USER: laravel
+      POSTGRES_PASSWORD: secret
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - laravel
+
+  redis:
+    image: redis:7-alpine
+    container_name: laravel-redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+    volumes:
+      - redis-data:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - laravel
+
+volumes:
+  postgres-data:
+  redis-data:
+
+networks:
+  laravel:
+    driver: bridge
