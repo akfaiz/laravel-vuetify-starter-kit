@@ -3,22 +3,6 @@ import 'vuetify/styles';
 
 import { createVuetify } from 'vuetify';
 
-const initialTheme = (): 'light' | 'dark' => {
-    if (typeof window === 'undefined') {
-        return 'light';
-    }
-
-    const appearance = window.localStorage.getItem('appearance');
-
-    if (appearance === 'light' || appearance === 'dark') {
-        return appearance;
-    }
-
-    return window.matchMedia('(prefers-color-scheme: dark)').matches
-        ? 'dark'
-        : 'light';
-};
-
 export default createVuetify({
     ssr: true,
     defaults: {
@@ -40,7 +24,7 @@ export default createVuetify({
         },
     },
     theme: {
-        defaultTheme: initialTheme(),
+        defaultTheme: 'system',
         themes: {
             light: {
                 dark: false,

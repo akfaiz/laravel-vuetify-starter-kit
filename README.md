@@ -1,10 +1,10 @@
 # Laravel Vuetify Starter Kit
 
-A Laravel 13 starter kit with Inertia v3, Vue 3, Vuetify 3, Fortify, and Wayfinder.
+A Laravel 13 starter kit with Inertia v3, Vue 3, Vuetify 4, Fortify, and Wayfinder.
 
 ## What’s included
 
-- Inertia-powered app shell with Vue 3 and Vuetify 3
+- Inertia-powered app shell with Vue 3 and Vuetify 4
 - Authentication flows for login, registration, password reset, email verification, password confirmation, and two-factor authentication
 - Account settings for profile, security, and appearance
 - Typed frontend route helpers generated with Wayfinder

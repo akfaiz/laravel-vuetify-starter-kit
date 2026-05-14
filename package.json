@@ -33,12 +33,12 @@
         "vue-tsc": "^2.2.4"
     },
     "dependencies": {
-        "@mdi/font": "^7.4.47",
         "@inertiajs/vite": "^3.0.0",
         "@inertiajs/vue3": "^3.0.0",
+        "@mdi/font": "^7.4.47",
         "laravel-vite-plugin": "^3.1",
         "vue": "^3.5.13",
-        "vuetify": "^3.10.0"
+        "vuetify": "^4.0.7"
     },
     "optionalDependencies": {
         "@rollup/rollup-linux-x64-gnu": "4.9.5",

@@ -106,7 +106,7 @@ export function useAppearance(): UseAppearanceReturn {
             appearance.value = savedAppearance;
         }
 
-        theme.global.name.value = resolveAppearance(appearance.value);
+        theme.change(appearance.value);
     });
 
     const resolvedAppearance = computed<ResolvedAppearance>(() =>
@@ -123,7 +123,7 @@ export function useAppearance(): UseAppearanceReturn {
         setCookie('appearance', value);
 
         updateTheme(value);
-        theme.global.name.value = resolveAppearance(value);
+        theme.change(value);
     }
 
     return {

@@ -23,11 +23,11 @@ This application is a Laravel application and its main Laravel ecosystems packag
 - pestphp/pest (PEST) - v4
 - phpunit/phpunit (PHPUNIT) - v12
 - @inertiajs/vue3 (INERTIA_VUE) - v3
-- vuetify (VUETIFY) - v3
+- vuetify (VUETIFY) - v4
 - vue (VUE) - v3
 - @laravel/vite-plugin-wayfinder (WAYFINDER_VITE) - v0
 - eslint (ESLINT) - v9
-- prettier (PRETTIER) - v3
+- prettier (PRETTIER) - v
 
 ## Skills Activation
 

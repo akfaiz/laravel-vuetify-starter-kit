@@ -211,7 +211,11 @@ watch(
                         <VDivider />
 
                         <VList density="compact">
-                            <Link :href="editProfile()" prefetch>
+                            <Link
+                                :href="editProfile()"
+                                class="app-sidebar-user-menu-action"
+                                prefetch
+                            >
                                 <VListItem
                                     prepend-icon="mdi-cog-outline"
                                     title="Settings"
@@ -220,6 +224,7 @@ watch(
                             <Link
                                 :href="logout()"
                                 as="button"
+                                class="app-sidebar-user-menu-action"
                                 data-test="logout-button"
                                 @click="handleLogout"
                             >
