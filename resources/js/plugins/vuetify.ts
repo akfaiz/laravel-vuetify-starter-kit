@@ -2,6 +2,23 @@ import '@mdi/font/css/materialdesignicons.css';
 import 'vuetify/styles';
 
 import { createVuetify } from 'vuetify';
+import type { Appearance } from '@/types';
+
+const DEFAULT_APPEARANCE: Appearance = 'system';
+
+const getStoredAppearance = (): Appearance => {
+    if (typeof window === 'undefined') {
+        return DEFAULT_APPEARANCE;
+    }
+
+    const value = window.localStorage.getItem('appearance');
+
+    if (value === 'light' || value === 'dark' || value === 'system') {
+        return value;
+    }
+
+    return DEFAULT_APPEARANCE;
+};
 
 export default createVuetify({
     ssr: true,
@@ -24,7 +41,8 @@ export default createVuetify({
         },
     },
     theme: {
-        defaultTheme: 'system',
+        // Bootstrap Vuetify with persisted preference to avoid reload mismatch.
+        defaultTheme: getStoredAppearance(),
         themes: {
             light: {
                 dark: false,

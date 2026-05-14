@@ -62,7 +62,13 @@ const getStoredAppearance = () => {
         return null;
     }
 
-    return localStorage.getItem('appearance') as Appearance | null;
+    const value = localStorage.getItem('appearance');
+
+    if (value === 'light' || value === 'dark' || value === 'system') {
+        return value;
+    }
+
+    return null;
 };
 
 const prefersDark = (): boolean => {
@@ -98,9 +104,7 @@ export function useAppearance(): UseAppearanceReturn {
     const theme = useTheme();
 
     onMounted(() => {
-        const savedAppearance = localStorage.getItem(
-            'appearance',
-        ) as Appearance | null;
+        const savedAppearance = getStoredAppearance();
 
         if (savedAppearance) {
             appearance.value = savedAppearance;
