@@ -38,7 +38,7 @@ jobs:
           node-version: '24'
 
       - name: Install Node Dependencies
-        run: npm i
+        run: npm ci
 
       - name: Install Dependencies
         run: composer install --no-interaction --prefer-dist --optimize-autoloader
@@ -46,11 +46,17 @@ jobs:
       - name: Copy Environment File
         run: cp .env.example .env
 
+      - name: Set testing environment
+        run: echo "APP_ENV=testing" >> .env
+
       - name: Generate Application Key
         run: php artisan key:generate
 
       - name: Build Assets
         run: npm run build
+
+      - name: Create database
+        run: php artisan migrate:fresh --seed
 
       - name: Tests
         run: ./vendor/bin/pest
